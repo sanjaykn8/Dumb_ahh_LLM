@@ -54,13 +54,14 @@ def sample(model, prompt, max_new_tokens=120, top_k=50, temp=1.0):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--ckpt", default="opfiles/model_final.pt")
-    parser.add_argument("--prompt", default="love")
+    parser.add_argument("--prompt", default="love ")
     parser.add_argument("--max_new_tokens", type=int, default=120)
     parser.add_argument("--top_k", type=int, default=50)
     parser.add_argument("--temp", type=float, default=1.0)
     args = parser.parse_args()
 
-    model = TinyGPT(vocab_size=259, seq_len=128, n_layer=4, d_model=128, n_head=4, d_ff=512).to(DEVICE)
+    model = TinyGPT(vocab_size=259, seq_len=256, n_layer=4, d_model=128, n_head=4, d_ff=512).to(DEVICE)
+
     model.load_state_dict(torch.load(args.ckpt, map_location=DEVICE))
     
     print(sample(model, args.prompt, args.max_new_tokens, args.top_k, args.temp))

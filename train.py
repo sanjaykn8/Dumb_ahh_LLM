@@ -9,16 +9,16 @@ import random
 import string
 
 # ===============initialisations==============
-DATA_PATH = 'train.txt'
-SEQ_LEN = 128
-BATCH = 4
+DATA_PATH = 'train.txt'  # change for dataset
+SEQ_LEN = 256
+BATCH = 10
 GRAD_ACCUM = 8
-STEPS = 2000
-LR = 3e-4
+STEPS = 100000
+LR = 1e-2
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 SAVE_DIR = 'opfiles'
 FP16 = True
-SEED = 67
+SEED = 89
 PAD = 0
 BOS = 1
 EOS = 2
@@ -100,10 +100,10 @@ while step < STEPS:
             scaler.update()
             optim.zero_grad()
         
-        if step % 10 == 0:
+        if step % 100 == 0:
             tqdm.write(f"Step {step}, Loss: {loss.item() * GRAD_ACCUM:.4f}")
             
-        if step % 200 == 0 and step > 0:
+        if step % 1000 == 0 and step > 0:
             torch.save(model.state_dict(), os.path.join(SAVE_DIR, f"model_step{step}.pt"))
             
         step += 1
