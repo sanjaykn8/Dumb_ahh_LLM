@@ -25,7 +25,7 @@ class CausalSelfAttention(nn.Module):
         
         att = (q @ k.transpose(-2, -1)) / (self.d_head ** 0.5)
         
-        if att is not None:
+        if mask is not None:
             att += mask
             
         att = torch.softmax(att, dim=-1)
